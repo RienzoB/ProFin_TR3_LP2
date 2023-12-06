@@ -1,0 +1,34 @@
+En un entorno individual y aislado, surge la necesidad de 
+proporcionar a los apasionados de los viajes un espacio en 
+línea donde puedan compartir y descubrir experiencias únicas 
+de viaje. La tarea es desarrollar una plataforma web dedicada
+exclusivamente a las vivencias y relatos de viajes, donde 
+los usuarios tengan la posibilidad de registrarse, iniciar 
+sesión, crear publicaciones sobre viajes y participar activamente al agregar comentarios a las publicaciones de 
+otros viajeros. La interacción completa de los posteos estará
+reservada exclusivamente para aquellos que se registren e
+ inicien sesión, mientras que los visitantes no registrados
+    podrán acceder solo para la lectura de los contenidos.
+La resolución de esta problemática requerirá la utilización
+ de tecnologías de programación web, como Node.js, Express,
+  MongoDb, Mongoose y React, con el fin de desarrollar una 
+  interfaz intuitiva, funcional y con persistencia de los 
+  datos. Los estudiantes tendrán la flexibilidad de personalizar
+ la interfaz utilizando CSS, Bootstrap o alguna biblioteca de 
+ estilo, adaptando el diseño del foro de acuerdo con los 
+ requisitos y preferencias específicas del proyecto.
+ Adicionalmente, los estudiantes adquirirán habilidades 
+ esenciales en autorización y autenticación, ya que se 
+ espera que implementen un sistema seguro de registro e
+ inicio de sesión. Esta funcionalidad será clave para 
+ fomentar la participación activa de la comunidad,
+ permitiendo a los usuarios agregar comentarios y enriquecer
+  la plataforma con sus propias experiencias de viaje.
+ Al resolver esta problemática, los estudiantes no solo 
+ desarrollarán habilidades fundamentales en diseño de 
+ interfaces, manejo de bases de datos no relaciones y 
+ programación web, sino que también se sumergirán en aspectos
+ cruciales de autorización y autenticación, contribuyendo a la
+ creación de una solución personalizada para satisfacer las 
+ necesidades específicas de esta plataforma de publicación de
+  contenido centrada en experiencias de viajes.
