@@ -1,6 +1,6 @@
 import { userModel } from "../models/user-models.js";
 import jwt from "jsonwebtoken";
-
+import { env } from "../settings/envs.js";
 export const autorizarValidaciones = (req, res, next) => {
 
     const { authorization } = req.headers;
@@ -10,8 +10,8 @@ export const autorizarValidaciones = (req, res, next) => {
         return res.sendStatus(401);
     } 
   try {
-    const { userId } = jwt.verify(authorization, "Secret"); 
-    console.log("userId" + userId);
+    const { userId } = jwt.verify(authorization, (env.SECRET_KEY)); 
+    console.log("userId" + userId)
 
    const user = userModel.byId({ id: userId }); 
    if (!user) { 
@@ -28,4 +28,5 @@ export const autorizarValidaciones = (req, res, next) => {
     return res.sendStatus(401);
   };
 } 
+
 

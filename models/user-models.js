@@ -1,7 +1,41 @@
-import bcrypt from "bcrypt";//ai alguna libreria no funciona el impor o expot utilizar import * as bcrypt(nombre de la libreria) from "bcrypt";
-import { v4 as uuid } from "uuid";
+import bcrypt from "bcrypt";//Si alguna libreria no funciona el impor o expot utilizar import * as bcrypt(nombre de la libreria) from "bcrypt";
+import { Schema, Types, model } from "mongoose";
 
-export let listUsers = [];
+const userSchema = new Schema({
+   
+    name: ({
+        type: String,
+        required: true,
+        unique: true,
+    }),
+    lastName: ({
+         type: String, 
+         required: true}),
+    image: ({
+         type: String, 
+         required: true}),
+    email: ({
+         type: String,
+         required: true}),
+    password:({
+         type: String, 
+         required: true}),
+    isAdmin: ({
+        type: Boolean, 
+        default: false}),
+    tasks:[
+            {
+                type: Types.ObjectId,
+                ref: "Task",
+            },
+        ],
+},
+    {
+        timestamps: true,
+    });
+     
+
+export const UserModel = model("User", userSchema);
 
 const createNewUser = async ({
     name,
@@ -15,7 +49,6 @@ const createNewUser = async ({
     if (!email) return null; 
 
     const newUser = {
-        id: uuid(),
         name,
         lastName,
         image,
@@ -24,30 +57,30 @@ const createNewUser = async ({
         isAdmin: name === "rienzo",
     };
 
-    listUsers.push(newUser);
-    return newUser;
+   const user = await UserModel.create(newUser);
+    return user;
 };
 
-const getAllUsers = () => {
-    return [...listUsers];
-};
+export const getAllUsers = UserModel.find({})
 
-const getUserById = ({ id }) => {
-    const user = listUsers.find((user) => user.id === id);
+
+
+const getUserById = async ({ id }) => {
+    const user = await UserModel.findById(id);
 
     return user;
 };
 
-export const getUSerByEmail = ({ email }) => {
-    const user = listUsers.find((user) => user.email === email);
+export const getUSerByEmail = async({ email }) => {
+    const user = await UserModel.findOne({email});
     return user;
-
-}
+};
 
 export const loginUser = async ({ email, password }) => {
-    const user = getUSerByEmail({ email });
+  try{
+      const user = await getUSerByEmail({ email });
 
-    if (!user) {
+    if (!user) { 
         return null;
     }
     const isMatch = await bcrypt.compare(password, user.password);
@@ -55,25 +88,20 @@ export const loginUser = async ({ email, password }) => {
         return null;
     }
     return user;
-
+    } 
+    catch (error) {
+        console.log(error);
+    }
 };
-const findUserByIdAndUpdate = (id, data) => {
-    listUsers = listUsers.map((user) => {
-        if (user.id === id) {
-            if (data.name) user.name = data.name
-            if (data.lastName) user.lastName = data.lastName
-            if (data.image) user.image = data.image
-            if (data.email) user.email = data.email
-            if (data.password) user.password = data.password
+const findUserByIdAndUpdate = async(id, data) => {
+   const user = await UserModel.findByIdAndUpdate(id, datos, {new: true}) 
 
-            return user;
-        }
-        return user;
-    });
+    return user;
+       
 };
 
-const deleteUser = ({ id }) => {
-    listUsers = listUsers.filter((user) => user.id !== id)
+const deleteUser = async ({ id }) => {
+   await UserModel.findByIdAndDelete(id); 
 }
 export const userModel = {
     create: createNewUser,
@@ -82,3 +110,4 @@ export const userModel = {
     update: findUserByIdAndUpdate,
     delete: deleteUser, 
 }
+

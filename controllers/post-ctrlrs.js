@@ -1,7 +1,5 @@
 import { param } from "express-validator";
 import { postModel } from "../models/post-models.js";
-import bcrypt from "bcrypt";
-import Jwt from "jsonwebtoken";
 
 export async function ctrlCreatePost(req, res) {
 

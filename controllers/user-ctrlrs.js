@@ -1,15 +1,18 @@
-import { listUsers, userModel, loginUser } from "../models/user-models.js";
+import { UserModel, getAllUsers, loginUser } from "../models/user-models.js";
 import  jwt  from "jsonwebtoken"; 
+import { param } from "express-validator";
 
-
-export async function ctrlCreateUser(req, res) {
-
+export async function ctrlCreateUser(req, res) { 
+try {
     const { name, lastName, image, email, password } = req.body;
 
     const user = await userModel.create({ name, lastName, image, email, password });
 
     res.status(201).json(user);
 
+    } catch (error) {
+        res.status(400).json(error);
+    }
 }
 
 export async function ctrlrsLoginUser(req, res) {
@@ -17,7 +20,7 @@ export async function ctrlrsLoginUser(req, res) {
    
     const user = await loginUser({ email, password });
 
-    if (!user) return res.sendStatus(404);
+    if (!user) return res.sendStatus.json("no se encontro");
     
     const token = jwt.sign({ userId: user.id }, "Secret");
 
@@ -25,15 +28,22 @@ export async function ctrlrsLoginUser(req, res) {
 }
 
 export async function ctrlGetAllUser(req, res) {
-
-    await res.json(listUsers);
+    try {
+    const getAllUsers = await UserModel.find({}, ["-_v"])
+    .populate( "tasks" );
+    await res.json(getAllUsers);
+    } catch{
+        console.log("error")
+        res.status(500).json("error");
+    }
 };
 
-export function ctrlGetByUser(req, res) {
+export const ctrlGetByUser =  async(req, res)=> {
 
-    const { userId } = req.param;
+    const { userId } = req.params;
 
-   const user = userModel.byId({ id: userId }); 
+   const user = await UserModel.findById({ _id: userId })
+   .populate( "tasks" );; 
     if (!user) {
         return res.sendStatus(404);
      }
